@@ -1,6 +1,7 @@
 const fs = require('fs');
+const zlib = require('zlib');
 
-(async () => {
+const generateCss = async (outputCss) => {
     const res = await (await fetch('https://www.sec.gov/files/company_tickers.json')).json();
     const resultImagesCss = Object.values(res).filter( t => !!t ).map( t => {
         try {
@@ -36,5 +37,23 @@ const fs = require('fs');
  */
 ${resultImagesCss}`;
 
-    fs.writeFileSync('./public/sec_companies_logos.css', resultCss);
+    fs.writeFileSync(outputCss, resultCss);
+}
+
+const compressFile = (inputPath, outputPath) => {
+    const input = fs.createReadStream(inputPath);
+    const gzip = zlib.createGzip();
+    const output = fs.createWriteStream(outputPath);
+
+    return new Promise((res) => {
+        input.pipe(gzip).pipe(output).on('finish', () => {
+            res();
+        });
+    })
+};
+
+(async () => {
+    const outputCss = './public/sec_companies_logos.css';
+    await generateCss(outputCss);
+    await compressFile(outputCss, outputCss + '.gz');
 })();
