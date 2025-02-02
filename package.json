@@ -1,13 +1,12 @@
 {
-    "name": "companieslogos",
-    "version": "0.0.1",
-    "private": false,
-    "scripts": {
-      "deploy": "gh-pages -d build",
-      "start": "node ./src/generateCssSec.js"
-    },
-    "devDependencies": {
-      "gh-pages": "^6.1.1"
-    }
+  "name": "companieslogos",
+  "version": "0.0.1",
+  "private": false,
+  "scripts": {
+    "deploy": "gh-pages -d public",
+    "start": "node ./src/generateCssSec.js"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
 }
-  
